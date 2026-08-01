@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/DragonBoxAlgebra/Scenes/DragonBox.unity
+    guid: db020000000000000000000000000002
   m_configObjects: {}

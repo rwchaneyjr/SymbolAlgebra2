@@ -9,17 +9,7 @@ namespace DragonBoxAlgebra
     {
         private void Awake()
         {
-            if (Camera.main == null)
-            {
-                var cameraGo = new GameObject("Main Camera");
-                cameraGo.tag = "MainCamera";
-                var camera = cameraGo.AddComponent<Camera>();
-                camera.orthographic = true;
-                camera.orthographicSize = 5f;
-                camera.clearFlags = CameraClearFlags.SolidColor;
-                camera.backgroundColor = new Color(0.12f, 0.34f, 0.42f);
-                cameraGo.AddComponent<AudioListener>();
-            }
+            SceneCameraSetup.EnsureSingleMainCamera();
 
             if (AudioManager.Instance == null)
             {
@@ -27,7 +17,9 @@ namespace DragonBoxAlgebra
                 DontDestroyOnLoad(audioGo);
             }
 
+            CardSpriteLoader.Reset();
             CardSpriteLoader.EnsureLoaded();
+            CreatureSpriteDebug.LogStartup();
 
             var controller = new AlgebraGameController();
             var ui = gameObject.AddComponent<AlgebraUI>();

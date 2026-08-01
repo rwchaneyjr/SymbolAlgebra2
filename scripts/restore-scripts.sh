@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-RESTORE_BRANCH="${RESTORE_BRANCH:-main}"
+RESTORE_BRANCH="${RESTORE_BRANCH:-cursor/level-curriculum-50-3fe3}"
 SYMBOL_ALGEBRA_DIR="${SYMBOL_ALGEBRA_DIR:-/c/Users/rober/SymbolAlgebra}"
 
 normalize_windows_path() {
@@ -41,6 +41,8 @@ echo ""
 
 git fetch origin "$RESTORE_BRANCH"
 git checkout "origin/$RESTORE_BRANCH" -- Assets/DragonBoxAlgebra/Scripts/
+git checkout "origin/$RESTORE_BRANCH" -- Assets/DragonBoxAlgebra/Editor/ 2>/dev/null || true
+git checkout "origin/$RESTORE_BRANCH" -- Assets/DragonBoxAlgebra/Scenes/
 
 echo ""
 echo "Restored. Open Unity, wait for compile, press Play."

@@ -39,11 +39,11 @@ namespace DragonBoxAlgebra.Gameplay
         private BalancePending _pendingBalance;
         private int _levelIndex;
         private bool _levelComplete;
-        private static readonly Random Rng = new();
+        private LevelDefinition _currentLevel;
 
         public int LevelIndex => _levelIndex;
-        public int LevelCount => LevelLibrary.Levels.Count;
-        public LevelDefinition CurrentLevel => LevelLibrary.Levels[_levelIndex];
+        public int LevelCount => LevelLibrary.Count;
+        public LevelDefinition CurrentLevel => _currentLevel ?? LevelLibrary.GetLevel(_levelIndex);
 
         public bool IsCardPendingCancel(string cardId)
         {
@@ -84,8 +84,10 @@ namespace DragonBoxAlgebra.Gameplay
 
         public void LoadLevel(int index)
         {
-            _levelIndex = Math.Clamp(index, 0, LevelLibrary.Levels.Count - 1);
-            LevelDefinition level = CurrentLevel;
+            _levelIndex = index < 0 ? 0 : index >= LevelLibrary.Count ? LevelLibrary.Count - 1 : index;
+            _currentLevel = LevelLibrary.GetLevel(_levelIndex);
+            LevelDefinition level = _currentLevel;
+            GameProgress.SaveLevelIndex(_levelIndex);
             CreatureArt.SetTheme(level.CreatureTheme);
 
             Board.Reset(level.BuildSide(level.LeftCards, level.LeftValues, level.LeftVisualThemes),
@@ -111,6 +113,7 @@ namespace DragonBoxAlgebra.Gameplay
             MessageChanged?.Invoke(_pendingCancels.Count > 0 && _hand.Count == 0
                 ? "Click the spinning * to dismiss the creatures. Leave the red box alone!"
                 : HandMessage(level));
+            CreatureSpriteDebug.LogLevel(Board, _hand, level);
         }
 
         private static string HandMessage(LevelDefinition level)
@@ -127,27 +130,21 @@ namespace DragonBoxAlgebra.Gameplay
 
         public void LoadNextLevel()
         {
-            if (_levelIndex + 1 < LevelLibrary.Levels.Count)
+            if (_levelIndex + 1 < LevelLibrary.Count)
             {
                 LoadLevel(_levelIndex + 1);
             }
             else
             {
-                LoadRandomLevel();
+                LoadLevel(0);
             }
         }
 
         public void LoadRandomLevel()
         {
-            if (LevelLibrary.Levels.Count <= 6)
-            {
-                LoadLevel(0);
-                return;
-            }
-
-            int index = 6 + Rng.Next(LevelLibrary.Levels.Count - 6);
-            LoadLevel(index);
-            MessageChanged?.Invoke($"Random puzzle — {CreatureArt.ThemeName}!");
+            int next = (_levelIndex + 1) % LevelLibrary.Count;
+            LoadLevel(next);
+            MessageChanged?.Invoke($"Level {next + 1} — {CreatureArt.ThemeName}");
         }
 
         public void RestartLevel()

@@ -21,6 +21,26 @@ namespace DragonBoxAlgebra.Gameplay
         public int ParMoves = 6;
         public int ParCards = 2;
 
+        public LevelDefinition Clone()
+        {
+            return new LevelDefinition
+            {
+                Title = Title,
+                CreatureTheme = CreatureTheme,
+                LeftCards = new List<CardKind>(LeftCards),
+                RightCards = new List<CardKind>(RightCards),
+                LeftValues = new List<int>(LeftValues),
+                RightValues = new List<int>(RightValues),
+                HandCards = new List<CardKind>(HandCards),
+                HandValues = new List<int>(HandValues),
+                HandVisualThemes = new List<int>(HandVisualThemes),
+                LeftVisualThemes = new List<int>(LeftVisualThemes),
+                RightVisualThemes = new List<int>(RightVisualThemes),
+                ParMoves = ParMoves,
+                ParCards = ParCards
+            };
+        }
+
         public BoardSide BuildSide(List<CardKind> kinds, List<int> values, List<int> visualThemes = null)
         {
             var side = new BoardSide();

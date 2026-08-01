@@ -35,21 +35,46 @@ namespace DragonBoxAlgebra.UI
                 return _themedSprites[row, col];
             }
 
-            _themedSprites[row, col] = row switch
-            {
-                0 => light ? CreateFishSprite() : CreateTurtleSprite(),
-                1 => CreateBirdSprite(light),
-                2 => CreateCrabSprite(light),
-                3 => CreateWingSprite(light),
-                4 => CreateStarSprite(light),
-                5 => CreateHopperSprite(light),
-                6 => light ? CreateFrogSprite() : CreateSnakeSprite(),
-                7 => CreateWeatherSprite(light),
-                8 => CreateDragonSprite(light),
-                _ => CreatePetSprite(light)
-            };
+            _themedSprites[row, col] = CreateSeaCreatureSprite(row, light);
 
             return _themedSprites[row, col];
+        }
+
+        private static Sprite CreateSeaCreatureSprite(int theme, bool light)
+        {
+            return theme switch
+            {
+                0 => light ? CreateFishSprite() : CreateFishSpriteDark(),
+                1 => light ? CreateTurtleSprite() : CreateTurtleSpriteDark(),
+                2 => CreateCreatureSprite(
+                    light ? new Color(0.95f, 0.82f, 0.78f) : new Color(0.55f, 0.38f, 0.42f),
+                    light ? new Color(0.9f, 0.5f, 0.45f) : new Color(0.35f, 0.2f, 0.25f), light),
+                3 => CreateCreatureSprite(
+                    light ? new Color(0.45f, 0.75f, 0.95f) : new Color(0.15f, 0.35f, 0.65f),
+                    light ? new Color(0.9f, 0.95f, 1f) : new Color(0.5f, 0.65f, 0.85f), true),
+                4 => CreateCreatureSprite(
+                    light ? new Color(0.55f, 0.85f, 0.45f) : new Color(0.2f, 0.45f, 0.22f),
+                    light ? new Color(0.95f, 0.8f, 0.2f) : new Color(0.65f, 0.5f, 0.1f), true),
+                5 => CreateCreatureSprite(
+                    light ? new Color(0.95f, 0.45f, 0.35f) : new Color(0.65f, 0.18f, 0.12f),
+                    light ? new Color(0.85f, 0.2f, 0.15f) : new Color(0.45f, 0.1f, 0.08f), false),
+                6 => CreateCreatureSprite(
+                    light ? new Color(0.55f, 0.85f, 0.95f) : new Color(0.2f, 0.45f, 0.62f),
+                    light ? new Color(0.95f, 0.75f, 0.35f) : new Color(0.75f, 0.55f, 0.2f), true),
+                _ => CreateCreatureSprite(
+                    light ? new Color(0.95f, 0.55f, 0.25f) : new Color(0.55f, 0.28f, 0.12f),
+                    light ? new Color(1f, 0.85f, 0.35f) : new Color(0.75f, 0.55f, 0.2f), true)
+            };
+        }
+
+        private static Sprite CreateFishSpriteDark()
+        {
+            return CreateCreatureSprite(new Color(0.12f, 0.35f, 0.72f), new Color(0.75f, 0.35f, 0.15f), true);
+        }
+
+        private static Sprite CreateTurtleSpriteDark()
+        {
+            return CreateCreatureSprite(new Color(0.15f, 0.42f, 0.28f), new Color(0.65f, 0.55f, 0.15f), false);
         }
         public static Sprite DiceSprite => _diceSprite ??= CreateDiceSprite();
         public static Sprite PositiveDiceSprite => _positiveDiceSprite ??= CreatePositiveDiceSprite();

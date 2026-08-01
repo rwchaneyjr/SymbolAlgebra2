@@ -123,13 +123,13 @@ namespace DragonBoxAlgebra.Gameplay
                 return;
             }
 
+            if (!hasUnset && !hasDuplicates)
+            {
+                return;
+            }
+
             if (hasDay && hasNight && creatureIndices.Count == 2)
             {
-                if (!hasUnset)
-                {
-                    return;
-                }
-
                 int pairTheme = ThemeAssignment.DistinctThemes(1, boardTheme)[0];
                 for (int i = 0; i < creatureIndices.Count; i++)
                 {
@@ -139,11 +139,6 @@ namespace DragonBoxAlgebra.Gameplay
                     hand[index] = card;
                 }
 
-                return;
-            }
-
-            if (!hasUnset && !hasDuplicates)
-            {
                 return;
             }
 

@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using DragonBoxAlgebra.UI;
 
 namespace DragonBoxAlgebra.Gameplay
 {
     public static class ThemeAssignment
     {
-        public const int ThemeCount = 10;
+        public const int ThemeCount = CreatureArt.ThemeCount;
 
         public static List<int> DistinctThemes(int count, int preferredFirst = -1)
         {

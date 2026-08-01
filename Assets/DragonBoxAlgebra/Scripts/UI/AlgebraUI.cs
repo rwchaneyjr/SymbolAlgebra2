@@ -11,6 +11,7 @@ namespace DragonBoxAlgebra.UI
         private Text _titleText;
         private Text _progressText;
         private Text _messageText;
+        private Text _spriteDebugText;
         private LevelCompleteView _completeView;
         private RectTransform _dragRoot;
         private Canvas _canvas;
@@ -22,7 +23,7 @@ namespace DragonBoxAlgebra.UI
             controller.LevelLoaded += OnLevelLoaded;
             controller.MessageChanged += OnMessageChanged;
             controller.LevelCompleted += OnLevelCompleted;
-            controller.LoadLevel(0);
+            controller.LoadLevel(GameProgress.SavedLevelIndex);
         }
 
         private void OnDestroy()
@@ -40,6 +41,19 @@ namespace DragonBoxAlgebra.UI
             _progressText.text = $"{current}/{total}";
             _titleText.text = $"{Controller.CurrentLevel.Title}  •  {CreatureArt.ThemeName}";
             _completeView.Hide();
+            RefreshSpriteDebugBanner();
+        }
+
+        private void RefreshSpriteDebugBanner()
+        {
+            if (_spriteDebugText == null)
+            {
+                return;
+            }
+
+            string msg = CreatureSpriteDebug.GetOnScreenMessage();
+            _spriteDebugText.text = msg;
+            _spriteDebugText.enabled = !string.IsNullOrEmpty(msg);
         }
 
         private void OnMessageChanged(string message)
@@ -102,6 +116,13 @@ namespace DragonBoxAlgebra.UI
             _progressText = CreateText(background.transform, "Progress", "1/6",
                 new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(0f, -52f), 20, TextAnchor.MiddleCenter);
 
+            _spriteDebugText = CreateText(background.transform, "SpriteDebug", "",
+                new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(0f, -78f), 14, TextAnchor.MiddleCenter);
+            _spriteDebugText.color = new Color(1f, 0.92f, 0.35f);
+            _spriteDebugText.horizontalOverflow = HorizontalWrapMode.Wrap;
+            _spriteDebugText.verticalOverflow = VerticalWrapMode.Overflow;
+            RefreshSpriteDebugBanner();
+
             var boardRow = CreatePanel(background.transform, "BoardRow", new Color(0f, 0f, 0f, 0.15f),
                 new Vector2(0.05f, 0.28f), new Vector2(0.95f, 0.82f), Vector2.zero, Vector2.zero);
 
@@ -123,7 +144,7 @@ namespace DragonBoxAlgebra.UI
                 new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(0f, 12f), 18, TextAnchor.LowerCenter);
 
             CreateRoundButton(background.transform, "Menu", new Vector2(0.06f, 0.92f), OnRestartClicked, "⬆");
-            CreateRoundButton(background.transform, "Random", new Vector2(0.12f, 0.92f), OnRandomClicked, "🎲");
+            CreateRoundButton(background.transform, "Next", new Vector2(0.12f, 0.92f), OnRandomClicked, "⏭");
             CreateRoundButton(background.transform, "Undo", new Vector2(0.88f, 0.92f), OnUndoClicked, "↩");
             CreateRoundButton(background.transform, "Rewind", new Vector2(0.94f, 0.92f), OnRewindClicked, "⏪");
 

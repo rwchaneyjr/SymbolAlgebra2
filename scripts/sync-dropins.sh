@@ -33,7 +33,7 @@ normalize_windows_path() {
 
 target_subdir_for() {
   case "$1" in
-    AlgebraBootstrap.cs) printf '%s' "" ;;
+    AlgebraBootstrap.cs|AlgebraSceneSetup.cs|SceneCameraSetup.cs) printf '%s' "" ;;
     Audio/*) printf '%s' "Audio" ;;
     Core/*) printf '%s' "Core" ;;
     Gameplay/*) printf '%s' "Gameplay" ;;
@@ -86,18 +86,18 @@ import_dropins() {
     base="$(basename "$src")"
 
     case "$base" in
-      AlgebraBootstrap.cs) dest_subdir="" ;;
+      AlgebraBootstrap.cs|AlgebraSceneSetup.cs|SceneCameraSetup.cs) dest_subdir="" ;;
       AudioManager.cs) dest_subdir="Audio" ;;
       AlgebraBoard.cs|BoardCard.cs|BoardSide.cs|CardKind.cs|CombineRules.cs|WinChecker.cs)
         dest_subdir="Core" ;;
-      AlgebraGameController.cs|BalancePending.cs|CardFlipRules.cs|GameSnapshot.cs|HandRules.cs|\
+      AlgebraGameController.cs|BalancePending.cs|CardFlipRules.cs|GameSnapshot.cs|GameProgress.cs|HandRules.cs|\
       BoardVisualRules.cs|CoordinatedCreatureThemes.cs|HandCompositionRules.cs|HandVisualRules.cs|\
       LevelDefinition.cs|LevelGenerator.cs|LevelLibrary.cs|LevelSolvabilityRules.cs|MoveTracker.cs|\
       PendingCancelMarker.cs|ThemeAssignment.cs)
         dest_subdir="Gameplay" ;;
       BoardSideLayout.cs|BoardView.cs|AlgebraUI.cs|AsteriskCancelWidget.cs|BalanceHoleWidget.cs|\
       BoardDropZone.cs|CardSpriteLoader.cs|CardVisuals.cs|CardWidget.cs|CreatureArt.cs|\
-      CreatureReaction.cs|EmojiFont.cs|HandView.cs|LevelCompleteView.cs|SpriteFactory.cs|VortexEffect.cs)
+      CreatureReaction.cs|CreatureSpriteDebug.cs|EmojiFont.cs|HandView.cs|LevelCompleteView.cs|SpriteFactory.cs|VortexEffect.cs)
         dest_subdir="UI" ;;
       *) dest_subdir="UI" ;;
     esac

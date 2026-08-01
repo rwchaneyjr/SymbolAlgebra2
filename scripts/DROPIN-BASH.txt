@@ -1,5 +1,41 @@
 # Paste into Git Bash (Windows) — SymbolAlgebra
 
+## Get the latest 50-level curriculum (PR #23)
+
+```bash
+cd /c/Users/rober/SymbolAlgebra
+git fetch origin
+git checkout cursor/level-curriculum-50-3fe3
+bash scripts/sync-dropins.sh import --here
+```
+
+Or stay on `main` after merge:
+
+```bash
+cd /c/Users/rober/SymbolAlgebra
+git fetch origin
+git pull origin main
+```
+
+Then open Unity → wait for compile → Play.
+
+Scene: `Assets/DragonBoxAlgebra/Scenes/DragonBox.unity`
+
+**What changed:** 50 fixed levels, saved progress, custom PNG creature art support.
+
+### Add your own images (like the sea turtle)
+
+1. Copy PNG/JPG into:
+   `Assets/DragonBoxAlgebra/Resources/CreatureSprites/`
+2. Name examples:
+   - `dark_turtle.png`  (night/dark turtle card)
+   - `light_fish.png`   (day/light fish card)
+   - or `theme00_dark.png` / `theme00_light.png`
+3. In Unity: select image → Texture Type → **Sprite (2D and UI)** → Apply
+4. Press Play — custom art replaces built-in sprites when found
+
+---
+
 ## 31 compile errors after sync-dropins? Run this first
 
 `sync-dropins.sh import` only copies 33 flat files. If you were on
@@ -63,7 +99,9 @@ echo "Done"
 2. Scene: `Assets/DragonBoxAlgebra/Scenes/DragonBox.unity`
 3. Press **Play**
 
-Latest main includes:
-- Hand gameplay branch (distinct themes, matching pairs)
+Latest main / PR #23 includes:
+- 50-level light/dark pair curriculum (LevelGenerator)
+- Mirror solvability for box-on-right hand levels (48–50)
+- Hand gameplay (distinct themes, matching pairs)
 - Right side fits up to 6 tiles
 - Balance defer + bash restore script
